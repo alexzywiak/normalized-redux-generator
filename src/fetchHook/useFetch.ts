@@ -13,7 +13,7 @@ export const initialEntityState: FetchEntityState<any> = {
   lastUpdated: null
 };
 
-export type ShouldFetch<FETCH_ARGUMENTS, SUCCESS> = (
+export type ShouldFetch<FETCH_ARGUMENTS> = (
   entity: Omit<FetchEntityState<FETCH_ARGUMENTS>, "value"> | null,
   currentArgs: FETCH_ARGUMENTS,
   previousArgs: FETCH_ARGUMENTS | null,
@@ -36,10 +36,10 @@ export interface UseFetchKey<FETCH_ARGUMENTS, SUCCESS> {
     state: any
   ) => Promise<SUCCESS>;
   selector: (state: any) => FetchEntityState<FETCH_ARGUMENTS> | null;
-  shouldFetch?: ShouldFetch<FETCH_ARGUMENTS, SUCCESS>;
+  shouldFetch?: ShouldFetch<FETCH_ARGUMENTS>;
 }
 
-export const defaultShouldFetch: ShouldFetch<any, any> = (
+export const defaultShouldFetch: ShouldFetch<any> = (
   entity,
   currentArgs,
   previousArgs
