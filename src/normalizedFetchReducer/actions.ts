@@ -1,4 +1,4 @@
-import { AMError, KeyedAction, KeyFn } from "./types";
+import { KeyedAction, KeyFn } from "./types";
 
 export const ADD_ENTITIES = "ADD_ENTITIES";
 export const REQUEST_ENTITIES = "REQUEST_ENTITIES";
@@ -17,7 +17,7 @@ export interface RequestEntities<FETCH_ARGUMENTS> extends KeyedAction {
 
 export interface FailureEntities extends KeyedAction {
   type: typeof FAILURE_ENTITIES;
-  payload: AMError | null;
+  payload: Error | null;
 }
 
 export interface StaleEntities extends KeyedAction {
@@ -41,7 +41,7 @@ export type NormalizedActions<FETCH_ARGUMENTS, SUCCESS> = {
 
   failureEntities: (
     fetchArguments: FETCH_ARGUMENTS,
-    error: AMError | null
+    error: Error | null
   ) => FailureEntities;
   staleEntities: (fetchArguments: FETCH_ARGUMENTS) => StaleEntities;
   fetchFn: (args: FETCH_ARGUMENTS) => Promise<SUCCESS>;
@@ -72,7 +72,7 @@ const generateNormalizedActions = <FETCH_ARGUMENTS, SUCCESS>(
 
   const failureEntities = (
     fetchArguments: FETCH_ARGUMENTS,
-    error: AMError | null
+    error: Error | null
   ): FailureEntities => ({
     type: FAILURE_ENTITIES,
     payload: error,

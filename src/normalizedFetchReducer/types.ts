@@ -1,25 +1,18 @@
 import { AnyAction } from "redux";
 import { schema } from "normalizr";
 
-export interface FetchEntityState<FETCH_ARGUMENTS, VALUE> {
+export interface FetchEntityState<FETCH_ARGUMENTS> {
   fetchArguments: FETCH_ARGUMENTS | null;
   isFetching: boolean;
   isStale: boolean;
-  value: VALUE | null;
-  error: AMError | null;
+  error: Error | null;
   lastUpdated: number | null;
-}
-
-export interface AMError {
-  status?: number;
-  code?: number;
-  error: string;
 }
 
 export type KeyedAction = AnyAction & { keys: string[] };
 export type KeyFn<F> = (args: F | null) => string[];
 
-export type FetchMetadata<F> = Omit<FetchEntityState<F, any>, "value">;
+export type FetchMetadata<F> = Omit<FetchEntityState<F>, "value">;
 
 export type NormalizedEntityState<F, S> = S & {
   fetchMetadata: FetchMetadata<F>;

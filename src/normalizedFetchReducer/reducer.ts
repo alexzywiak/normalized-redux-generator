@@ -13,21 +13,12 @@ import {
   STALE_ENTITIES
 } from "./actions";
 
-export const initialFetchMetadata: FetchEntityState<any, any> = {
-  isFetching: false,
-  isStale: true,
-  error: null,
-  fetchArguments: null,
-  value: null,
-  lastUpdated: null
-};
-
 const handleRequestEntities = <F>(
   state: any,
   payload: RequestEntities<F>["payload"],
   keys: string[]
 ) => {
-  const fetchMetadata: Partial<FetchEntityState<F, any>> = {
+  const fetchMetadata: Partial<FetchEntityState<F>> = {
     isFetching: true,
     fetchArguments: payload,
     isStale: false
@@ -43,7 +34,7 @@ const handleAddEntities = <F, S>(
   schema: Schema
 ) => {
   const { nestedValue, fetchArguments } = payload;
-  const fetchMetadata: Partial<FetchEntityState<F, any>> = {
+  const fetchMetadata: Partial<FetchEntityState<F>> = {
     fetchArguments,
     isFetching: false,
     isStale: false,
