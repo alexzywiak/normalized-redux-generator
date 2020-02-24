@@ -1,18 +1,26 @@
 import normalizedFetchReducer from "../normalizedFetchReducer";
+import queryString from "querystring";
 import { FetchArguments, NormalizedSchema } from "./types";
-import { beer } from "./schema";
+import { beers } from "./schema";
+
 const BASE_URL = "https://api.punkapi.com/v2/beers";
 
 export default normalizedFetchReducer<
   FetchArguments,
   any,
-  "beer",
+  "beers",
   NormalizedSchema
 >({
   baseSelector: s => s,
   keyFn: (args: FetchArguments | null) => (args ? [args.beerName] : []),
-  fetchFn: ({ beerName }) => {
-    return fetch(BASE_URL);
+  fetchFn: async ({ beerName }) => {
+    const url = beerName
+      ? `${BASE_URL}?${queryString.encode({ beer_name: beerName })}`
+      : BASE_URL;
+
+    const resp = await fetch(url);
+    const list = await resp.json();
+    return { beers: list };
   },
-  schema: beer
+  schema: beers as any
 });

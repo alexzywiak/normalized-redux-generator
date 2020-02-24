@@ -1,10 +1,13 @@
 import React from "react";
-import useBeer from "./fetchBeer/hook";
+import { useSelector } from "react-redux";
+import { getBeer } from "./fetchBeer/selectors";
 
-interface BeerProps {}
-const Beer = (props: BeerProps) => {
-  useBeer({ beerName: "punk" });
-  return <>beer</>;
+interface BeerProps {
+  id: string;
+}
+const Beer = ({ id }: BeerProps) => {
+  const beer = useSelector(getBeer(id));
+  return beer ? <span>{beer.name}</span> : null;
 };
 
 Beer.displayName = "Beer";

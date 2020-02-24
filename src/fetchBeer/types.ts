@@ -3,6 +3,7 @@ export type FetchArguments = {
 };
 
 export type NormalizedSchema = {
+  beers: { beers: string[] };
   beer: {
     malt: string[];
     hops: string[];
