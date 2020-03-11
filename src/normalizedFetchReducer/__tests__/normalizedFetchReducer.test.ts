@@ -1,5 +1,5 @@
 import { normalize, schema } from "normalizr";
-import { cloneAndMerge } from "../../../../utils/cloneAndMerge";
+import { cloneAndMerge } from "../utils";
 import normalizedFetchReducer from "../normalizedFetchReducer";
 
 jest.mock("moment", () => () => ({
@@ -56,12 +56,12 @@ const {
   NormalizedSchema
 >({
   baseSelector: state => state,
-  keyFn: ({ article }: FetchArguments) => [article],
+  keyFn: (args: FetchArguments | null) => (args ? [args.article] : []),
   schema: article,
   fetchFn: () => Promise.resolve(mockNested)
 });
 
-describe(normalizedFetchReducer, () => {
+describe("normalizedFetchReducer", () => {
   it("returns state", () => {
     const state = {};
     expect(articleFetchReducer(state, { type: "bogus" } as any)).toBe(state);
